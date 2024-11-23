@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Sapa Menggunakan AJAX</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            font-size: 40px;
+        }
+        input {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 200px;
+            display: inline-block;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: darkblue;
+        }
+        #greeting {
+            margin-top: 20px;
+            font-size: 18px;
+            color: green;
+        }
+        #error {
+            margin-top: 20px;
+            font-size: 16px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Form Sapa Menggunakan AJAX</h1>
+    <input type="text" id="nameInput" placeholder="Masukkan nama" />
+    <button onclick="sendName()">Kirim</button>
+    <p id="error"></p>
+    <p id="greeting"></p>
+
+    <script>
+        function sendName() {
+            const name = document.getElementById("nameInput").value;
+            const errorElement = document.getElementById("error");
+            const greetingElement = document.getElementById("greeting");
+
+            // Clear previous messages
+            errorElement.textContent = "";
+            greetingElement.textContent = "";
+
+            // Validasi input
+            if (name.trim() === "") {
+                errorElement.textContent = "Nama tidak boleh kosong!";
+                return;
+            }
+
+            // Menggunakan AJAX untuk mengambil data
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", "ajax_info.txt", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    greetingElement.textContent = `Halo, ${name}! ${xhr.responseText}`;
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</body>
+</html>
